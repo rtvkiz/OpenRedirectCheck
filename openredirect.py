@@ -1,26 +1,8 @@
 import requests
 import re
 
-## Potential missing scenatio
-## Where the url gets redirected to one of its url and then to the payload
-## This code might miss it
-## We can follow recusrive chain for that
 
 pattern = re.compile(r'(?m)^(?:Location\s*?:\s*?)(?:https?:\/\/|\/\/|\/\\\\|\/\\)?(?:[a-zA-Z0-9\-_\.@]*)evil\.com\/?(\/|[^.].*)?$')
-
-# check if the response status is 301,302,307, and location header belongs to the payload
-def check(url):
-    try:
-        resp=requests.get(url,allow_redirects=False)
-        location_header_value = resp.headers.get('Location','')
-        location_header=f"Location: {location_header_value}"
-        # print(location_header)
-        if pattern.match(location_header) and resp.status_code in [301,302,308,307]:
-            return True
-        
-    except requests.RequestException as e:
-         print(e)
-
 
         # print(url)
 def check_redirect(url):
